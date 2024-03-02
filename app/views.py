@@ -1,6 +1,6 @@
 import os
 from app import app, db, login_manager
-from flask import render_template, request, redirect, url_for, flash, session, abort
+from flask import render_template, request, redirect, url_for, flash, session, abort, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.utils import secure_filename
 from app.models import UserProfile
@@ -25,6 +25,28 @@ def home():
 def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
+
+
+def get_uploaded_images():
+    import os
+    rootdir = os.getcwd()
+    fileslst = []
+    for subdir, dirs, files in os.walk(rootdir + '/uploads'):
+        for file in files:
+            #print os.path.join(subdir, file)
+            fileslst.append(file)
+    return fileslst
+
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    return send_from_directory(os.path.join(os.getcwd(),app.config['UPLOAD_FOLDER']), filename)
+
+@app.route('/files')
+def files():
+    if not session.get('logged_in'):
+        abort(401)
+    return render_template('files.html', filenames=get_uploaded_images())
+
 
 
 @app.route('/upload', methods=['POST', 'GET'])

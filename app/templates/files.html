@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <ul id="img-outline">
+
+        {% for file in filenames %}
+        <li>
+            <img class="allimages" src="{{ url_for('get_image', filename=file) }}" alt="Image Uploaded">
+        </li>
+        {% endfor %}
+
+    </ul>
+
+{% endblock %}

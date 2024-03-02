@@ -62,7 +62,7 @@ def upload():
         pimg.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         flash('File Saved', 'success')
-        return redirect(url_for('home')) # Update this to redirect the user to a route that displays all uploaded image files
+        return redirect(url_for('files')) # Update this to redirect the user to a route that displays all uploaded image files
 
     return render_template('upload.html', form=pform)
 
@@ -71,18 +71,10 @@ def upload():
 def login():
     form = LoginForm()
 
-    # change this to actually validate the entire form submission
-    # and not just one field
     if form.validate_on_submit():
-        # Get the username and password values from the form.
+
         un = form.username.data
         pw = form.password.data
-        # Using your model, query database for a user based on the username
-        # and password submitted. Remember you need to compare the password hash.
-
-        # You will need to import the appropriate function to do so.
-        # Then store the result of that query to a `user` variable so it can be
-        # passed to the login_user() method below.
 
         user = db.session.execute(db.select(UserProfile).filter_by(username=un)).scalar()
                
@@ -90,10 +82,10 @@ def login():
             # Gets user id, load into session
             login_user(user)
 
-            # Remember to flash a message to the user
+
             flash('Your login was successful.')
 
-            return redirect(url_for("upload"))  # The user should be redirected to the upload form instead
+            return redirect(url_for("upload"))  
         
     return render_template("login.html", form=form)
 
@@ -102,6 +94,18 @@ def login():
 @login_manager.user_loader
 def load_user(id):
     return db.session.execute(db.select(UserProfile).filter_by(id=id)).scalar()
+
+@app.route('/logout', methods=['POST', 'GET'])
+
+def logout():
+    if current_user.is_authenticated:
+        logout_user() 
+
+        flash('You logged out.')
+
+    return redirect(url_for("home"))
+        
+        
 
 ###
 # The functions below should be applicable to all Flask apps.

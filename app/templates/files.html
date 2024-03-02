@@ -2,7 +2,9 @@
 
 {% block main %}
 
-    <ul id="img-outline">
+<div class="img-container">
+
+    <ul class="img-outline">
 
         {% for file in filenames %}
         <li>
@@ -11,5 +13,7 @@
         {% endfor %}
 
     </ul>
+
+</div>
 
 {% endblock %}

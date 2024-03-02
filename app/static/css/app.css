@@ -18,3 +18,29 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+.img-outline{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.img-container{
+    height: 2000px;
+    width : 1000px;
+}
+
+img{
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    padding: 20px;
+}
+
+ul 
+{
+    list-style-type: none;
+}
+
+.form-info{
+    padding: 20px;
+}

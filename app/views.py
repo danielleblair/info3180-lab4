@@ -42,9 +42,8 @@ def get_image(filename):
     return send_from_directory(os.path.join(os.getcwd(),app.config['UPLOAD_FOLDER']), filename)
 
 @app.route('/files')
+@login_required
 def files():
-    if not session.get('logged_in'):
-        abort(401)
     return render_template('files.html', filenames=get_uploaded_images())
 
 
